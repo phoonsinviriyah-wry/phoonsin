@@ -46,8 +46,6 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
     const MY_LIFF_ID = "2010232849-SF0ClH96"; 
-    
-    // ⚠️ เอาลิงก์หลังบ้าน /exec ตัวใหม่ล่าสุดมาวางตรงนี้ครับพี่
     const BACKEND_URL = "https://script.google.com/macros/s/AKfycbwN_VOOqFlIh1Ywz_OaEqzo6ApmWqfdbLnM3zf-pkFhxyGJSjrQgOWAwr3NZpgqJXARRg/exec"; 
 
     function initializeLiff() {
@@ -78,12 +76,17 @@
       const uid = document.getElementById("lineUid").value;
       const phone = document.getElementById("phone").value;
       
+      // 🎯 [จุดแก้ไข] ปรับแต่งหน้าต่างเตือนกรณีลืมกรอกเบอร์โทรศัพท์ให้จัดเรียงสวยงาม ไม่ตกบรรทัดมั่ว
       if(!phone) { 
-        Swal.fire({ icon: 'warning', title: 'คำเตือน', text: 'กรุณากรอกเบอร์โทรศัพท์ก่อนครับ (ไม่มีใส่ 0 ได้เลยครับ)' });
+        Swal.fire({ 
+          icon: 'warning', 
+          title: 'คำเตือน', 
+          html: 'กรุณากรอกเบอร์โทรศัพท์ก่อนครับ<br><small style="color: #e67e22; font-weight: bold; margin-top: 5px; display: inline-block;">(หากไม่มีให้ใส่เลข 0 ได้เลยครับ)</small>',
+          confirmButtonColor: '#e67e22'
+        });
         return; 
       }
       
-      // 🟢 [เกราะชั้นที่ 2] สั่งแช่แข็งปิดปุ่มกดทันทีกรณีถูกคลิก ป้องกันคนกดเบิ้ลซ้ำรัวๆ
       const btn = document.getElementById("submitBtn");
       btn.disabled = true;
       btn.innerText = "กำลังบันทึกข้อมูล...";
@@ -116,7 +119,6 @@
           document.getElementById("status").style.color = "red";
           document.getElementById("status").innerText = "บัญชีนี้เคยลงทะเบียนไปแล้วครับ";
           
-          // คืนสิทธิ์ปุ่มกดให้เผื่อกรณีระบบผิดพลาด
           btn.disabled = false;
           btn.innerText = "บันทึกข้อมูล";
         } else {
